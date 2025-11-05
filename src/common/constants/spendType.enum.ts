@@ -1,0 +1,16 @@
+export enum SpendType {
+    food = 'food',
+    cafe = 'cafe',
+    house = 'house',
+    transport = 'transport',
+    fun = 'fun',
+    alcohol = 'alcohol',
+    clothing = 'clothing',
+    pets = 'pets',
+    gifts = 'gifts',
+    car = 'car',
+    connection = 'connection',
+    health = 'health',
+    sport = 'sport',
+    hygiene = 'hygiene',
+}

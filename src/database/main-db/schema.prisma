@@ -8,14 +8,31 @@ datasource db {
   url      = env("PG_DATABASE_URL")
 }
 
+model Expenses {
+  id          String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+  createdBy   String   @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
+  updatedBy   String   @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
+  spendAt     DateTime @default(now()) @db.Timestamptz(6)
+  description String   @unique @default("")
+  tagId       String   @db.Uuid
+  amount      Int?
+  tag         Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@map("expenses")
+}
+
 model Tag {
-  id        String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(6)
-  createdBy String   @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
-  updatedBy String   @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
-  order     Int      @default(0)
-  name      String   @unique @default("")
+  id        String     @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime   @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime   @default(now()) @updatedAt @db.Timestamptz(6)
+  createdBy String     @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
+  updatedBy String     @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
+  name      String     @unique @default("")
+  order     Int        @default(0)
+  color     String?
+  expenses  Expenses[]
 
   @@map("tag")
 }

@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as path from 'node:path';
 import { LoggerMorganMiddleware } from '@src/shared/logger/middlewares/logger-morgan.middleware';
 import { HealthCheckModule } from '@src/modules/healthcheck/healthcheck.module';
+import { ExpensesModule } from '@src/modules/expenses/expenses.module';
 import { LoggerModule } from '@src/shared/logger/logger.module';
 import { ServicesModule } from '@src/services/services.module';
 import { DatabaseModule } from '@src/database/database.module';
@@ -29,6 +30,7 @@ const ENVS_DIR = `${WORK_DIR}/envs`;
         LoggerModule,
         UserIdModule,
         HealthCheckModule,
+        ExpensesModule,
         TagModule,
     ],
     controllers: [],

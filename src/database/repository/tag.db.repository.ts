@@ -8,9 +8,7 @@ export class TagDbRepository {
     constructor(private readonly prisma: PrismaClientService) {}
 
     async getAllTags() {
-        return this.prisma.tag.findMany({
-            orderBy: { order: 'asc' },
-        });
+        return this.prisma.tag.findMany({ orderBy: { order: 'asc' } });
     }
 
     async getTagById(id: string) {
