@@ -1,0 +1,41 @@
+services:
+  nest-server:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+      target: dev
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      MEDIA_VIDEO_SIZE: 2500000000
+      MEDIA_FILE_SIZE: 25000000
+      NODE_ENV: dev
+    volumes:
+      - ./:/src/dev
+    networks:
+      - finlog_network
+
+  postgres:
+    image: postgres:15
+    restart: always
+    container_name: db
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: pg_isready -U postgres -d postgres
+      interval: 5s
+      timeout: 15s
+      retries: 3
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+    networks:
+      - finlog_network
+
+networks:
+  finlog_network:
+    driver: bridge
