@@ -9,12 +9,15 @@ export class ExpensesDbRepository {
     constructor(private readonly prisma: PrismaClientService) {}
 
     async getExpenses({ page, fromDateTime, toDateTime }: GetExpensesDto) {
-        return this.prisma.expenses.findMany({
-            where: { spendAt: { gte: fromDateTime, lte: toDateTime } },
+        const where = { spendAt: { gte: fromDateTime, lte: toDateTime } };
+        const total = await this.prisma.expenses.count({ where });
+        const items = await this.prisma.expenses.findMany({
+            where,
             orderBy: { spendAt: 'desc' },
             skip: (page - 1) * DEFAULT_PAGE_SIZE,
             take: DEFAULT_PAGE_SIZE,
         });
+        return { items, total };
     }
 
     async getExpenseById(id: string) {

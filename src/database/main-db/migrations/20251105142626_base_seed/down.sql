@@ -1,0 +1,2 @@
+-- TruncateTable
+TRUNCATE TABLE "tag";

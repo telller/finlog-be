@@ -52,7 +52,7 @@ $ npm run test:cov
 
 ## Create Prisma Schema Migrations
 1. Make changes you need to Models or create a new one in `schema.prisma` file
-2. Create migration file `npx prisma migrate dev --name init --create-only --schema src/database/main-db/schema.prisma`
+2. Create migration file `npx prisma migrate dev --name <migration name> --create-only --schema src/database/main-db/schema.prisma`
 3. Review and edit your newly created migrations.sql file in migrations folder
 4. Execute `npx prisma migrate deploy --schema src/database/main-db/schema.prisma` to apply migration to your local db
 5. !!! If migration fails use `npx prisma migrate resolve --rolled-back <your migration name> --schema src/database/main-db/schema.prisma` to revert it
