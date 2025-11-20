@@ -31,9 +31,6 @@ CREATE TABLE "tag" (
 CREATE UNIQUE INDEX "expenses_id_key" ON "expenses"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "expenses_description_key" ON "expenses"("description");
-
--- CreateIndex
 CREATE UNIQUE INDEX "tag_id_key" ON "tag"("id");
 
 -- CreateIndex

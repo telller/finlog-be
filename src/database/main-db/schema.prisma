@@ -15,7 +15,7 @@ model Expenses {
   createdBy   String   @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
   updatedBy   String   @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
   spendAt     DateTime @default(now()) @db.Timestamptz(6)
-  description String   @unique @default("")
+  description String   @default("")
   tagId       String   @db.Uuid
   amount      Int?
   tag         Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Restrict)
