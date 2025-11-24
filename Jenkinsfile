@@ -7,6 +7,7 @@ pipeline {
 
     environment {
         PROJECT_DIR = "${WORKSPACE}"
+        COMPOSE_FILE = "docker-compose.prod.yml"
     }
 
     stages {
@@ -27,7 +28,7 @@ pipeline {
         stage('Docker Compose Down') {
             steps {
                 dir("${PROJECT_DIR}") {
-                    sh 'docker-compose down || true'
+                    sh "docker-compose -f ${COMPOSE_FILE} down || true"
                 }
             }
         }
@@ -35,7 +36,7 @@ pipeline {
         stage('Docker Compose Up') {
             steps {
                 dir("${PROJECT_DIR}") {
-                    sh 'docker-compose up -d --build'
+                    sh "docker-compose -f ${COMPOSE_FILE} up -d --build"
                 }
             }
         }

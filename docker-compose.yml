@@ -12,8 +12,6 @@ services:
         condition: service_healthy
     environment:
       PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      MEDIA_VIDEO_SIZE: 2500000000
-      MEDIA_FILE_SIZE: 25000000
       NODE_ENV: dev
     volumes:
       - ./:/src/dev
