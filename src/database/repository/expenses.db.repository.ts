@@ -13,7 +13,7 @@ export class ExpensesDbRepository {
         const total = await this.prisma.expenses.count({ where });
         const items = await this.prisma.expenses.findMany({
             where,
-            orderBy: [{ spendAt: 'desc' }, { updatedAt: 'desc' }],
+            orderBy: [{ spendAt: 'desc' }, { createdAt: 'desc' }],
             skip: (page - 1) * DEFAULT_PAGE_SIZE,
             take: DEFAULT_PAGE_SIZE,
         });
