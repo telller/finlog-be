@@ -7,11 +7,12 @@ import {
     Param,
     ParseUUIDPipe,
     Post,
+    Put,
     Query,
     UseGuards,
 } from '@nestjs/common';
 import { ExpenseIdValidator } from '@src/common/pipes/entityIdValidation/ExpenseIdValidator';
-import { CreateExpenseDto } from '@src/modules/expenses/dto/createExpense.dto';
+import { UpsertExpense } from '@src/modules/expenses/dto/upsertExpense';
 import { GetExpensesDto } from '@src/modules/expenses/dto/getExpenses.dto';
 import { getSuccessResponse } from '@src/common/utils/getResponse';
 import { ExpensesService } from '@src/services/expenses.service';
@@ -31,13 +32,22 @@ export class ExpensesController {
     }
 
     @Post('/')
-    async createTag(@Body() data: CreateExpenseDto) {
+    async createExpense(@Body() data: UpsertExpense) {
         const res = await this.expensesService.createExpense(data);
         return getSuccessResponse(Messages.GeneralSuccess, res);
     }
 
+    @Put('/:id')
+    async updateExpense(
+        @Param('id', ParseUUIDPipe, ExpenseIdValidator) id: string,
+        @Body() data: UpsertExpense,
+    ) {
+        const res = await this.expensesService.updateExpense(id, data);
+        return getSuccessResponse(Messages.GeneralSuccess, res);
+    }
+
     @Delete('/:id')
-    async deleteTag(@Param('id', ParseUUIDPipe, ExpenseIdValidator) id: string) {
+    async deleteExpense(@Param('id', ParseUUIDPipe, ExpenseIdValidator) id: string) {
         const res = await this.expensesService.deleteExpense(id);
         return getSuccessResponse(Messages.GeneralSuccess, res);
     }

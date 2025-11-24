@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateExpenseDto } from '@src/modules/expenses/dto/createExpense.dto';
-import { PrismaClientService } from '@src/database/prisma/prisma.service';
 import { GetExpensesDto } from '@src/modules/expenses/dto/getExpenses.dto';
+import { PrismaClientService } from '@src/database/prisma/prisma.service';
+import { UpsertExpense } from '@src/modules/expenses/dto/upsertExpense';
 import { DEFAULT_PAGE_SIZE } from '@src/common/constants/pagination';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class ExpensesDbRepository {
         const total = await this.prisma.expenses.count({ where });
         const items = await this.prisma.expenses.findMany({
             where,
-            orderBy: { spendAt: 'desc' },
+            orderBy: [{ spendAt: 'desc' }, { updatedAt: 'desc' }],
             skip: (page - 1) * DEFAULT_PAGE_SIZE,
             take: DEFAULT_PAGE_SIZE,
         });
@@ -24,8 +24,15 @@ export class ExpensesDbRepository {
         return this.prisma.expenses.findFirst({ where: { id } });
     }
 
-    async createExpense({ spendAt, description, tagId, amount }: CreateExpenseDto) {
+    async createExpense({ spendAt, description, tagId, amount }: UpsertExpense) {
         return this.prisma.expenses.create({ data: { spendAt, description, tagId, amount } });
+    }
+
+    async updateExpense(id: string, { spendAt, description, tagId, amount }: UpsertExpense) {
+        return this.prisma.expenses.update({
+            where: { id },
+            data: { spendAt, description, tagId, amount },
+        });
     }
 
     async deleteExpense(id: string) {

@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsInt32 } from '@src/common/decorators/isInt32.decorator';
 import { IsValidTagId } from '@src/common/decorators/entityIdValidation/isValidTagId.decorator';
 
-export class CreateExpenseDto {
+export class UpsertExpense {
     @ApiProperty()
     @IsDateString()
     spendAt: string;
