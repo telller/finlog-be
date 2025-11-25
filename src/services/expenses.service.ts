@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { GetExpensesForStatDto } from '@src/modules/expenses/dto/getExpenses.dto';
 import { UpsertExpense } from '@src/modules/expenses/dto/upsertExpense';
 import { ExpensesDbRepository } from '@src/database/repository';
 import { PaginationDto } from '@src/common/dto/pagination.dto';
@@ -9,6 +10,10 @@ export class ExpensesService {
 
     async getExpenses(data: PaginationDto) {
         return this.expensesDbRepository.getExpenses(data);
+    }
+
+    async getExpensesStatList(data: GetExpensesForStatDto) {
+        return this.expensesDbRepository.getExpensesStatList(data);
     }
 
     async createExpense(data: UpsertExpense) {
