@@ -13,9 +13,9 @@ import {
 } from '@nestjs/common';
 import { ExpenseIdValidator } from '@src/common/pipes/entityIdValidation/ExpenseIdValidator';
 import { UpsertExpense } from '@src/modules/expenses/dto/upsertExpense';
-import { GetExpensesDto } from '@src/modules/expenses/dto/getExpenses.dto';
 import { getSuccessResponse } from '@src/common/utils/getResponse';
 import { ExpensesService } from '@src/services/expenses.service';
+import { PaginationDto } from '@src/common/dto/pagination.dto';
 import { Messages } from '@src/common/constants/messages';
 import { AuthGuard } from '@src/common/guards/auth.guard';
 
@@ -26,7 +26,7 @@ export class ExpensesController {
     constructor(private expensesService: ExpensesService) {}
 
     @Get('/list')
-    async getExpensesList(@Query() data: GetExpensesDto) {
+    async getExpensesList(@Query() data: PaginationDto) {
         const res = await this.expensesService.getExpenses(data);
         return getSuccessResponse(Messages.GeneralSuccess, res);
     }

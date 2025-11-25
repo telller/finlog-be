@@ -1,18 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { GetExpensesDto } from '@src/modules/expenses/dto/getExpenses.dto';
 import { PrismaClientService } from '@src/database/prisma/prisma.service';
 import { UpsertExpense } from '@src/modules/expenses/dto/upsertExpense';
 import { DEFAULT_PAGE_SIZE } from '@src/common/constants/pagination';
+import { PaginationDto } from '@src/common/dto/pagination.dto';
 
 @Injectable()
 export class ExpensesDbRepository {
     constructor(private readonly prisma: PrismaClientService) {}
 
-    async getExpenses({ page, fromDateTime, toDateTime }: GetExpensesDto) {
-        const where = { spendAt: { gte: fromDateTime, lte: toDateTime } };
-        const total = await this.prisma.expenses.count({ where });
+    async getExpenses({ page }: PaginationDto) {
+        const total = await this.prisma.expenses.count({});
         const items = await this.prisma.expenses.findMany({
-            where,
             orderBy: [{ spendAt: 'desc' }, { createdAt: 'desc' }],
             skip: (page - 1) * DEFAULT_PAGE_SIZE,
             take: DEFAULT_PAGE_SIZE,
