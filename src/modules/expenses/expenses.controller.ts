@@ -12,7 +12,6 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { ExpenseIdValidator } from '@src/common/pipes/entityIdValidation/ExpenseIdValidator';
-import { GetExpensesForStatDto } from '@src/modules/expenses/dto/getExpenses.dto';
 import { UpsertExpense } from '@src/modules/expenses/dto/upsertExpense';
 import { getSuccessResponse } from '@src/common/utils/getResponse';
 import { ExpensesService } from '@src/services/expenses.service';
@@ -29,12 +28,6 @@ export class ExpensesController {
     @Get('/list')
     async getExpensesList(@Query() data: PaginationDto) {
         const res = await this.expensesService.getExpenses(data);
-        return getSuccessResponse(Messages.GeneralSuccess, res);
-    }
-
-    @Get('/stat-list')
-    async getExpensesStatList(@Query() data: GetExpensesForStatDto) {
-        const res = await this.expensesService.getExpensesStatList(data);
         return getSuccessResponse(Messages.GeneralSuccess, res);
     }
 

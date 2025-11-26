@@ -11,6 +11,7 @@ import { DatabaseModule } from '@src/database/database.module';
 import { UserIdModule } from '@src/shared/user/user.module';
 import { TagModule } from '@src/modules/tag/tag.module';
 import configuration from '@src/config/configuration';
+import { StatModule } from '@src/modules/stat/stat.module';
 
 const WORK_DIR = `${__dirname}/..`;
 const ENVS_DIR = `${WORK_DIR}/envs`;
@@ -31,6 +32,7 @@ const ENVS_DIR = `${WORK_DIR}/envs`;
         UserIdModule,
         HealthCheckModule,
         ExpensesModule,
+        StatModule,
         TagModule,
     ],
     controllers: [],

@@ -12,7 +12,7 @@ import { IsValidTagId } from '@src/common/decorators/entityIdValidation/isValidT
 import { IsInt32 } from '@src/common/decorators/isInt32.decorator';
 import { Transform } from 'class-transformer';
 
-export class GetExpensesForStatDto {
+export class ExpensesStatFilterDto {
     @ApiProperty()
     @IsDateString()
     fromDateTime: string;
