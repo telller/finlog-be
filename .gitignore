@@ -45,6 +45,7 @@ db_data/*
 
 # envs
 /envs/.env.dev
+/envs/.env.prod
 .env
 
 /tmp/
