@@ -7,31 +7,31 @@ services:
     restart: always
     ports:
       - "3000:3000"
-    depends_on:
-      postgres:
-        condition: service_healthy
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
     environment:
-      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+#      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       NODE_ENV: prod
     networks:
       - finlog_network
 
-  postgres:
-    image: postgres:15
-    restart: always
-    container_name: db
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: pg_isready -U postgres -d postgres
-      interval: 5s
-      timeout: 15s
-      retries: 3
-    environment:
-      POSTGRES_PASSWORD: postgrespassword
-    networks:
-      - finlog_network
+#  postgres:
+#    image: postgres:15
+#    restart: always
+#    container_name: db
+#    ports:
+#      - "5432:5432"
+#    healthcheck:
+#      test: pg_isready -U postgres -d postgres
+#      interval: 5s
+#      timeout: 15s
+#      retries: 3
+#    environment:
+#      POSTGRES_PASSWORD: postgrespassword
+#    networks:
+#      - finlog_network
 
-networks:
-  finlog_network:
-    driver: bridge
+#networks:
+#  finlog_network:
+#    driver: bridge
