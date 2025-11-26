@@ -13,8 +13,8 @@ services:
     environment:
 #      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       NODE_ENV: prod
-    networks:
-      - finlog_network
+#    networks:
+#      - finlog_network
 
 #  postgres:
 #    image: postgres:15
