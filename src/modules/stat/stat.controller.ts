@@ -19,6 +19,12 @@ export class StatController {
         return getSuccessResponse(Messages.GeneralSuccess, res);
     }
 
+    @Get('/days-stat')
+    async getDaysStat(@Query() data: ExpensesStatFilterDto) {
+        const res = await this.statService.getDaysStat(data);
+        return getSuccessResponse(Messages.GeneralSuccess, res);
+    }
+
     @Get('/expenses-list')
     async getExpensesStatList(@Query() data: GetExpensesStatListDto) {
         const res = await this.statService.getExpensesStatList(data);

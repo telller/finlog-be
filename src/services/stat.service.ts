@@ -11,6 +11,10 @@ export class StatService {
         return this.statDbRepository.getTagsStat(data);
     }
 
+    async getDaysStat(data: ExpensesStatFilterDto) {
+        return this.statDbRepository.getDaysStat(data);
+    }
+
     async getExpensesStatList(data: GetExpensesStatListDto) {
         return this.statDbRepository.getExpensesStatList(data);
     }

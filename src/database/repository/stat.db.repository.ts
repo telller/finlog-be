@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { map, reduce } from 'lodash';
+import { groupBy, map, sortBy, sumBy } from 'lodash';
 import { GetExpensesStatListDto } from '@src/modules/stat/dto/getExpensesStatList.dto';
 import { ExpensesStatFilterDto } from '@src/modules/stat/dto/expensesStatFilter.dto';
 import { PrismaClientService } from '@src/database/prisma/prisma.service';
 import { DEFAULT_PAGE_SIZE } from '@src/common/constants/pagination';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class StatDbRepository {
@@ -16,11 +17,29 @@ export class StatDbRepository {
             by: ['tagId'],
             _sum: { amount: true },
         });
-        const total = reduce(res, (acc, { _sum }) => acc + (_sum.amount ?? 0), 0);
+        const total = sumBy(res, ({ _sum }) => _sum.amount || 0);
         return map(res, ({ tagId, _sum: { amount } }) => {
             const percent = total ? ((amount || 0) / total) * 100 : 0;
             return { tagId, amount, percent: Number(percent.toFixed(2)) };
         });
+    }
+
+    async getDaysStat(data: ExpensesStatFilterDto) {
+        const res = await this.prisma.expenses.findMany({
+            where: this.getStatFilter(data),
+            select: { spendAt: true, amount: true },
+        });
+        const grouped = groupBy(res, ({ spendAt }) => dayjs(spendAt).format('DD.MM.YYYY'));
+        const total = sumBy(res, ({ amount }) => amount || 0);
+        const result = map(grouped, (items, date) => {
+            const groupedAmount = sumBy(items, ({ amount }) => amount || 0);
+            return {
+                date,
+                amount: groupedAmount,
+                percent: total ? Number(((groupedAmount / total) * 100).toFixed(2)) : 0,
+            };
+        });
+        return sortBy(result, 'date');
     }
 
     async getExpensesStatList(data: GetExpensesStatListDto) {
