@@ -8,12 +8,15 @@ WORKDIR /usr/src/app
 
 COPY --chown=node:node package*.json ./
 
+COPY --chown=node:node ./envs/.env.prod .env.prod
+COPY --chown=node:node ./envs/.env.prod .env
+
 RUN npm ci
 
 COPY --chown=node:node . .
 
 # Set NODE_ENV environment variable
-ENV NODE_ENV production
+ENV NODE_ENV prod
 
 # Run the build command which creates the production bundle
 RUN npm run build
@@ -35,6 +38,10 @@ FROM node:22-alpine AS prod
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 COPY --chown=node:node --from=build /usr/src/app/src/database/main-db/ ./dist/prisma
+
+#copy envs
+COPY --chown=node:node ./envs/.env.prod .env.prod
+COPY --chown=node:node ./envs/.env.prod .env
 
 USER node
 
