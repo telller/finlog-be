@@ -9,4 +9,7 @@ export const config = {
         swagger: process.env.SWAGGER || 'on',
         port: process.env.PORT || 3000,
     },
+    auth: {
+        jwtSecret: process.env.JWT_SECRET,
+    },
 };

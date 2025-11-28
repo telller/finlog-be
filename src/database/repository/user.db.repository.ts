@@ -5,8 +5,9 @@ import { PrismaClientService } from '@src/database/prisma/prisma.service';
 export class UserDbRepository {
     constructor(private readonly prisma: PrismaClientService) {}
 
-    async getAllTags() {
-        return this.prisma.tag.findMany({ orderBy: { order: 'asc' } });
+    async getUserByEmail(email: string) {
+        // console.log({ password: await bcrypt.hash(password, 10) }); // for user creation
+        return this.prisma.user.findFirst({ where: { email } });
     }
 
     async getTagById(id: string) {

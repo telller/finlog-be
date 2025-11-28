@@ -21,6 +21,7 @@ import configuration from '@src/config/configuration';
             load: [configuration],
             isGlobal: true,
         }),
+
         DatabaseModule,
         ServicesModule,
         LoggerModule,

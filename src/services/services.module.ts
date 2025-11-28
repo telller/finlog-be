@@ -5,9 +5,10 @@ import { DatabaseModule } from '@src/database/database.module';
 import { StatService } from '@src/services/stat.service';
 import { AuthService } from '@src/services/auth.service';
 import { TagService } from '@src/services/tag.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-    imports: [EntityIdValidationModule, DatabaseModule],
+    imports: [JwtModule.register({}), EntityIdValidationModule, DatabaseModule],
     providers: [Logger, AuthService, ExpensesService, StatService, TagService],
     exports: [Logger, DatabaseModule, AuthService, ExpensesService, StatService, TagService],
 })
