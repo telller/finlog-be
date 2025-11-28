@@ -8,6 +8,19 @@ datasource db {
   url      = env("PG_DATABASE_URL")
 }
 
+model User {
+  id        String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+  createdBy String   @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
+  updatedBy String   @default(dbgenerated("'00000000-0000-0000-0000-000000000000'::uuid")) @db.Uuid
+  email     String
+  username  String
+  password  String
+
+  @@map("user")
+}
+
 model Expenses {
   id          String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt   DateTime @default(now()) @db.Timestamptz(6)

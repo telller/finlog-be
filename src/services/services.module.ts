@@ -3,11 +3,12 @@ import { EntityIdValidationModule } from '@src/common/decorators/entityIdValidat
 import { ExpensesService } from '@src/services/expenses.service';
 import { DatabaseModule } from '@src/database/database.module';
 import { StatService } from '@src/services/stat.service';
+import { AuthService } from '@src/services/auth.service';
 import { TagService } from '@src/services/tag.service';
 
 @Module({
     imports: [EntityIdValidationModule, DatabaseModule],
-    providers: [Logger, ExpensesService, StatService, TagService],
-    exports: [Logger, DatabaseModule, ExpensesService, StatService, TagService],
+    providers: [Logger, AuthService, ExpensesService, StatService, TagService],
+    exports: [Logger, DatabaseModule, AuthService, ExpensesService, StatService, TagService],
 })
 export class ServicesModule {}

@@ -10,7 +10,6 @@ import utc from 'dayjs/plugin/utc';
 import helmet from 'helmet';
 import dayjs from 'dayjs';
 import { GlobalExceptionFilter } from '@src/common/filters/globalExceptionFilter';
-import { USER_ID_HEADER } from '@src/shared/user/constants/user.constant';
 import { Logger as AppLogger } from '@src/shared/logger/logger.service';
 import { AppConfig } from '@src/config/interfaces/config.interface';
 import { ResponseModel } from '@src/common/models/response.model';
@@ -58,10 +57,6 @@ async function bootstrap() {
                 type: ResponseModel,
                 description: 'Internal server error',
                 status: 500,
-            })
-            .addGlobalParameters({
-                ...{ in: 'header', name: USER_ID_HEADER, description: 'User ID', required: true },
-                schema: { type: 'string', default: '00000000-0000-0000-0000-000000000000' },
             })
             .build();
         const document = SwaggerModule.createDocument(app, config);
