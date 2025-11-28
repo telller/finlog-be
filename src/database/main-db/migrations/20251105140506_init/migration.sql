@@ -1,4 +1,18 @@
 -- CreateTable
+CREATE TABLE "user" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "createdAt" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdBy" UUID NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'::uuid,
+    "updatedBy" UUID NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'::uuid,
+    "email" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    CONSTRAINT "user_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "expenses" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "createdAt" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -26,6 +40,9 @@ CREATE TABLE "tag" (
 
     CONSTRAINT "tag_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "user_id_key" ON "user"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "expenses_id_key" ON "expenses"("id");
