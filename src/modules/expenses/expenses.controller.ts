@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
     Body,
     Controller,
@@ -21,6 +21,7 @@ import { AuthGuard } from '@src/common/guards/auth.guard';
 
 @ApiTags('Expenses')
 @Controller('expenses')
+@ApiBearerAuth('jwt')
 @UseGuards(AuthGuard)
 export class ExpensesController {
     constructor(private expensesService: ExpensesService) {}

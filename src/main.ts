@@ -51,6 +51,15 @@ async function bootstrap() {
             .setTitle('Finlog BE')
             .setDescription('Finlog API description')
             .setVersion('1.0')
+            .addBearerAuth(
+                {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                    description: 'Enter JWT token',
+                },
+                'jwt',
+            )
             .addGlobalResponse({ type: ResponseModel, description: 'Success', status: 200 })
             .addGlobalResponse({ type: ResponseModel, description: 'Unauthorized', status: 401 })
             .addGlobalResponse({

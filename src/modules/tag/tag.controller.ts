@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
     Body,
     Controller,
@@ -20,6 +20,7 @@ import { TagService } from '@src/services/tag.service';
 
 @ApiTags('Tag')
 @Controller('tag')
+@ApiBearerAuth('jwt')
 @UseGuards(AuthGuard)
 export class TagController {
     constructor(private tagService: TagService) {}

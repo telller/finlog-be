@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { getSuccessResponse } from '@src/common/utils/getResponse';
-import { UpsertTagDto } from '@src/modules/tag/dto/upsertTag.dto';
+import { UserId } from '@src/common/decorators/userId.decorator';
+import { RefreshGuard } from '@src/common/guards/refresh.guard';
+import { RefreshDto } from '@src/modules/auth/dto/refresh.dto';
 import { AuthGuard } from '@src/common/guards/auth.guard';
 import { Messages } from '@src/common/constants/messages';
 import { AuthService } from '@src/services/auth.service';
@@ -13,9 +15,10 @@ export class AuthController {
     constructor(private authService: AuthService) {}
 
     @UseGuards(AuthGuard)
+    @ApiBearerAuth('jwt')
     @Get('/me')
-    async getMe() {
-        const res = await this.authService.getMe();
+    async getMe(@UserId() userId: string) {
+        const res = await this.authService.getMe(userId);
         return getSuccessResponse(Messages.GeneralSuccess, res);
     }
 
@@ -25,9 +28,10 @@ export class AuthController {
         return getSuccessResponse(Messages.GeneralSuccess, res);
     }
 
+    @UseGuards(RefreshGuard)
     @Post('/refresh-token')
-    async createTag(@Body() data: UpsertTagDto) {
-        const res = await this.authService.refreshToken(data);
+    async refreshToken(@Body() _: RefreshDto, @UserId() userId: string) {
+        const res = await this.authService.refreshToken(userId);
         return getSuccessResponse(Messages.GeneralSuccess, res);
     }
 }

@@ -1,5 +1,5 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetExpensesStatListDto } from '@src/modules/stat/dto/getExpensesStatList.dto';
 import { ExpensesStatFilterDto } from '@src/modules/stat/dto/expensesStatFilter.dto';
 import { getSuccessResponse } from '@src/common/utils/getResponse';
@@ -9,6 +9,7 @@ import { StatService } from '@src/services/stat.service';
 
 @ApiTags('Statistics')
 @Controller('stat')
+@ApiBearerAuth('jwt')
 @UseGuards(AuthGuard)
 export class StatController {
     constructor(private statService: StatService) {}

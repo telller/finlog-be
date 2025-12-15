@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpsertTagDto } from '@src/modules/tag/dto/upsertTag.dto';
 import { UserDbRepository } from '@src/database/repository/user.db.repository';
 import { LoginDto } from '@src/modules/auth/dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -20,11 +19,12 @@ export class AuthService {
         this.jwtSecret = jwtSecret || '';
     }
 
-    async getMe() {
-        // return this.tagDbRepository.getAllTags();
+    async getMe(id: string) {
+        return this.userDbRepository.getUserById(id);
     }
 
     async login({ email, password }: LoginDto) {
+        // console.log({ password: await bcrypt.hash(password, 10) }); // for user creation
         const user = await this.userDbRepository.getUserByEmail(email);
         if (!user) throw new BadRequestException('Invalid credentials');
         const isValid = await bcrypt.compare(password, user.password);
@@ -32,24 +32,22 @@ export class AuthService {
         return this.generateTokens(user.id);
     }
 
-    async refreshToken(data: UpsertTagDto) {
-        // return this.generateTokens();
+    async refreshToken(userId: string) {
+        return this.generateTokens(userId);
     }
 
     async validateToken(token: string) {
-        return this.jwtService.verifyAsync(token, {
-            secret: this.configService.getOrThrow<AuthConfig>('auth').jwtSecret,
-        });
+        return this.jwtService.verifyAsync(token, { secret: this.jwtSecret });
     }
 
     private async generateTokens(userId: string) {
         const accessToken = await this.jwtService.signAsync(
             { sub: userId },
-            { secret: process.env.JWT_ACCESS_SECRET, expiresIn: '15m' },
+            { secret: this.jwtSecret, expiresIn: '15m' },
         );
         const refreshToken = await this.jwtService.signAsync(
             { sub: userId },
-            { secret: process.env.JWT_REFRESH_SECRET, expiresIn: '7d' },
+            { secret: this.jwtSecret, expiresIn: '7d' },
         );
         return { accessToken, refreshToken };
     }

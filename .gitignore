@@ -49,3 +49,4 @@ db_data/*
 .env
 
 /tmp/
+/queries/
