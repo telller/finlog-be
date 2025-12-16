@@ -1,5 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@src/database/main-db/generated/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 import {
     updateSystemFieldsExtension,
     bigIntToStringExtension,
@@ -9,10 +10,12 @@ import {
 
 @Injectable()
 export class PrismaClientService extends PrismaClient implements OnModuleInit {
-    constructor(
-        private readonly logger: Logger,
-    ) {
-        super();
+    constructor(private readonly logger: Logger) {
+        const adapter = new PrismaPg({
+            connectionString: process.env.PG_DATABASE_URL,
+        });
+
+        super({ adapter });
 
         const main = this.$extends(updateSystemFieldsExtension())
             .$extends(bigIntToStringExtension())

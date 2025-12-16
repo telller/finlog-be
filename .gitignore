@@ -50,3 +50,4 @@ db_data/*
 
 /tmp/
 /queries/
+/src/database/main-db/generated/

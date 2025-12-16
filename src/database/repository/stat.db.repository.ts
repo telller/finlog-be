@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@src/database/main-db/generated/client';
 import { groupBy, map, sortBy, sumBy } from 'lodash';
 import { GetExpensesStatListDto } from '@src/modules/stat/dto/getExpensesStatList.dto';
 import { ExpensesStatFilterDto } from '@src/modules/stat/dto/expensesStatFilter.dto';

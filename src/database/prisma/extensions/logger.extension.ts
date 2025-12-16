@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@src/database/main-db/generated/client';
 
 export function loggerExtension(logger: Logger) {
     return Prisma.defineExtension({

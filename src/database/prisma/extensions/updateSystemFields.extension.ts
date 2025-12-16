@@ -1,6 +1,6 @@
-import { Prisma } from '@prisma/client';
 import { map } from 'lodash';
 import { UserIdModelContext } from '@src/shared/user/models/user.model';
+import { Prisma } from '@src/database/main-db/generated/client';
 
 export function updateSystemFieldsExtension() {
     return Prisma.defineExtension({

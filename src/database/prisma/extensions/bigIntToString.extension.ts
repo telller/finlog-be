@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@src/database/main-db/generated/client';
 
 export function bigIntToStringExtension() {
     function convertDecimalToNumber(obj: any): any {
