@@ -6,7 +6,7 @@ export class UserDbRepository {
     constructor(private readonly prisma: PrismaClientService) {}
 
     async getUserById(id: string) {
-        return this.prisma.user.findFirst({ where: { id } });
+        return this.prisma.user.findFirst({ where: { id }, omit: { password: true } });
     }
 
     async getUserByEmail(email: string) {
