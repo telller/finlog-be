@@ -17,7 +17,7 @@ import configuration from '@src/config/configuration';
     imports: [
         TerminusModule,
         ConfigModule.forRoot({
-            envFilePath: `${__dirname}/../envs/.env${process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : ''}`,
+            envFilePath: `${__dirname}/../../envs/.env${process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : ''}`,
             load: [configuration],
             isGlobal: true,
         }),
