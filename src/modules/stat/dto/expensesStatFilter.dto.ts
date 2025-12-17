@@ -11,6 +11,7 @@ import {
 import { IsValidTagId } from '@src/common/decorators/entityIdValidation/isValidTagId.decorator';
 import { IsInt32 } from '@src/common/decorators/isInt32.decorator';
 import { Transform } from 'class-transformer';
+import { isArray } from 'lodash';
 
 export class ExpensesStatFilterDto {
     @ApiProperty()
@@ -21,6 +22,7 @@ export class ExpensesStatFilterDto {
     @IsDateString()
     toDateTime: string;
 
+    @Transform(({ value }) => (isArray(value) ? value : [value]))
     @ApiPropertyOptional({ type: String, isArray: true })
     @IsUUID(undefined, { each: true })
     @ArrayUnique((id: string) => id)
