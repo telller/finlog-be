@@ -36,4 +36,8 @@ export class ExpensesDbRepository {
     async deleteExpense(id: string) {
         return this.prisma.expenses.delete({ where: { id } });
     }
+
+    async createExpensesMany(data: UpsertExpense[]) {
+        return this.prisma.expenses.createMany({ data });
+    }
 }
