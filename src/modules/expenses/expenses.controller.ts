@@ -25,8 +25,8 @@ import { FileUploadDto } from '@src/modules/expenses/dto/fileUpload.dto';
 
 @ApiTags('Expenses')
 @Controller('expenses')
-// @ApiBearerAuth('jwt')
-// @UseGuards(AuthGuard)
+@ApiBearerAuth('jwt')
+@UseGuards(AuthGuard)
 export class ExpensesController {
     constructor(private expensesService: ExpensesService) {}
 
