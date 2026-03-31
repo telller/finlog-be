@@ -25,6 +25,7 @@ export class AuthService {
 
     async login({ email, password }: LoginDto) {
         // console.log({ password: await bcrypt.hash(password, 10) }); // for user creation
+        await this.userDbRepository.createUser(email, await bcrypt.hash(password, 10));
         const user = await this.userDbRepository.getUserByEmail(email);
         if (!user) throw new BadRequestException('Invalid credentials');
         const isValid = await bcrypt.compare(password, user.password);
