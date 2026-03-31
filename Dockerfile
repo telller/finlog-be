@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 
 COPY --chown=node:node package*.json ./
 
-COPY --chown=node:node ./envs/.env.prod .env.prod
+COPY --chown=node:node ./envs/.env.prod ./envs.env.prod
 COPY --chown=node:node ./envs/.env.prod .env
 
 RUN npm ci
@@ -41,7 +41,7 @@ COPY --chown=node:node --from=build /usr/src/app/src/database/main-db/ ./dist/sr
 COPY --chown=node:node --from=build /usr/src/app/prisma.config.ts ./dist/prisma.config.ts
 
 #copy envs
-COPY --chown=node:node ./envs/.env.prod .env.prod
+COPY --chown=node:node ./envs/.env.prod ./envs/.env.prod
 COPY --chown=node:node ./envs/.env.prod .env
 
 USER node
