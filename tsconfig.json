@@ -19,9 +19,8 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
     "paths": {
-      "@src/*": [
-        "./src/*",
-      ]
+      "@prisma": ["./src/database/main-db/generated/client"],
+      "@src/*": ["./src/*"]
     }
   },
   "watchOptions": {

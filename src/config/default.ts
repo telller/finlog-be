@@ -12,4 +12,5 @@ export const config = {
     auth: {
         jwtSecret: process.env.JWT_SECRET,
     },
+    databaseUrl: process.env.PG_DATABASE_URL,
 };

@@ -37,7 +37,8 @@ FROM node:22-alpine AS prod
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
-COPY --chown=node:node --from=build /usr/src/app/src/database/main-db/ ./dist/prisma
+COPY --chown=node:node --from=build /usr/src/app/src/database/main-db/ ./dist/src/database/main-db/
+COPY --chown=node:node --from=build /usr/src/app/prisma.config.ts ./dist/prisma.config.ts
 
 #copy envs
 COPY --chown=node:node ./envs/.env.prod .env.prod
@@ -46,4 +47,4 @@ COPY --chown=node:node ./envs/.env.prod .env
 USER node
 
 # Start the server using the production build
-ENTRYPOINT ["sh", "-c", "npx prisma migrate deploy --schema dist/prisma/schema.prisma && node dist/main.js"]
+ENTRYPOINT ["sh", "-c", "npx prisma migrate deploy --config dist/prisma.config.ts && node dist/src/main.js"]
