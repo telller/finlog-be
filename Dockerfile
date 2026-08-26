@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 
 COPY --chown=node:node package*.json ./
 
-COPY --chown=node:node ./envs/.env.prod ./envs.env.prod
+COPY --chown=node:node ./envs/.env.prod ./envs/.env.prod
 COPY --chown=node:node ./envs/.env.prod .env
 
 RUN npm ci
