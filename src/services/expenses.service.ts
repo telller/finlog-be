@@ -3,7 +3,7 @@ import { UpsertExpense } from '@src/modules/expenses/dto/upsertExpense';
 import { ExpensesDbRepository, TagDbRepository } from '@src/database/repository';
 import { PaginationDto } from '@src/common/dto/pagination.dto';
 import * as xlsx from 'xlsx';
-import { flatten, map, some } from 'lodash';
+import { filter, flatten, map, some } from 'lodash';
 
 @Injectable()
 export class ExpensesService {
@@ -47,7 +47,17 @@ export class ExpensesService {
                 });
             });
             const allRows = flatten(allSheetsData);
-            const validDataRows = map(allRows, (row) => ({
+            const validRows = filter(
+                allRows,
+                (row) => row['Дата'] && row['Сума (грн)'] && row['Назва'],
+            ) as {
+                Номер: string;
+                Дата: number;
+                Назва: string;
+                Тип: string;
+                'Сума (грн)': string;
+            }[];
+            const validDataRows = map(validRows, (row) => ({
                 spendAt: new Date((row['Дата'] - 25569) * 86400 * 1000).toISOString(),
                 amount: +row['Сума (грн)'],
                 description: row['Назва'],
