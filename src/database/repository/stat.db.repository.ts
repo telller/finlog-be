@@ -28,8 +28,9 @@ export class StatDbRepository {
     async getTagsStat(data: ExpensesStatFilterDto) {
         const res = await this.prisma.expenses.groupBy({
             where: this.getStatFilter(data),
-            by: ['tagId'],
+            orderBy: [{ _sum: { amount: 'desc' } }],
             _sum: { amount: true },
+            by: ['tagId'],
         });
         const total = sumBy(res, ({ _sum }) => _sum.amount || 0);
         return map(res, ({ tagId, _sum: { amount } }) => {
