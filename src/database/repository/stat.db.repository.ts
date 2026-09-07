@@ -11,6 +11,20 @@ import dayjs from 'dayjs';
 export class StatDbRepository {
     constructor(private readonly prisma: PrismaClientService) {}
 
+    async getTotalAndAverageExpense(data: ExpensesStatFilterDto) {
+        const res = await this.prisma.expenses.aggregate({
+            where: this.getStatFilter(data),
+            _sum: { amount: true },
+            _avg: { amount: true },
+        });
+        // eslint-disable-next-line no-underscore-dangle
+        return { total: res._sum.amount ?? 0, average: res._avg.amount ?? 0 };
+    }
+
+    async getTransactionsCount(data: ExpensesStatFilterDto) {
+        return this.prisma.expenses.count({ where: this.getStatFilter(data) });
+    }
+
     async getTagsStat(data: ExpensesStatFilterDto) {
         const res = await this.prisma.expenses.groupBy({
             where: this.getStatFilter(data),

@@ -14,6 +14,12 @@ import { StatService } from '@src/services/stat.service';
 export class StatController {
     constructor(private statService: StatService) {}
 
+    @Get('/general')
+    async getGeneralStat(@Query() data: ExpensesStatFilterDto) {
+        const res = await this.statService.getGeneralStat(data);
+        return getSuccessResponse(Messages.GeneralSuccess, res);
+    }
+
     @Get('/tags-stat')
     async getTagsStat(@Query() data: ExpensesStatFilterDto) {
         const res = await this.statService.getTagsStat(data);
