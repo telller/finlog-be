@@ -4,7 +4,7 @@ import { groupBy, map, sortBy, sumBy } from 'lodash';
 import { GetExpensesStatListDto } from '@src/modules/stat/dto/getExpensesStatList.dto';
 import { ExpensesStatFilterDto } from '@src/modules/stat/dto/expensesStatFilter.dto';
 import { PrismaClientService } from '@src/database/prisma/prisma.service';
-import { DEFAULT_PAGE_SIZE } from '@src/common/constants/pagination';
+// import { DEFAULT_PAGE_SIZE } from '@src/common/constants/pagination';
 import dayjs from 'dayjs';
 
 @Injectable()
@@ -61,8 +61,8 @@ export class StatDbRepository {
         return this.prisma.expenses.findMany({
             where: this.getStatFilter(data),
             orderBy: [{ spendAt: 'desc' }, { createdAt: 'desc' }],
-            skip: (data.page - 1) * DEFAULT_PAGE_SIZE,
-            take: DEFAULT_PAGE_SIZE,
+            // skip: (data.page - 1) * DEFAULT_PAGE_SIZE,
+            // take: DEFAULT_PAGE_SIZE,
         });
     }
 
