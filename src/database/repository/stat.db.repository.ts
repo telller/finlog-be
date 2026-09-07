@@ -57,15 +57,20 @@ export class StatDbRepository {
         const searchFilter = search
             ? { description: { contains: search, mode: Prisma.QueryMode.insensitive } }
             : {};
-        const amountFromFilter =
-            typeof amountFrom === 'number' ? { amount: { gte: amountFrom } } : {};
-        const amountToFilter = typeof amountTo === 'number' ? { amount: { lte: amountTo } } : {};
+        const amountFilter =
+            typeof amountFrom === 'number' || typeof amountTo === 'number'
+                ? {
+                      amount: {
+                          ...(typeof amountFrom === 'number' ? { gte: amountFrom } : {}),
+                          ...(typeof amountTo === 'number' ? { lte: amountTo } : {}),
+                      },
+                  }
+                : {};
         return {
             spendAt: { gte: fromDateTime, lte: toDateTime },
             ...tagsFilter,
             ...searchFilter,
-            ...amountFromFilter,
-            ...amountToFilter,
+            ...amountFilter,
         };
     }
 }
